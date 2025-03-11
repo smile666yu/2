@@ -29,26 +29,13 @@ function button_utility_script(inputArr, bindingClass, actionBindMode) {
 }
 
 (() => {
-    ModAPI.meta.title("Mob ESP & Flight");
-    ModAPI.meta.description("Adds a toggle for Mob ESP and Flight Mode.");
+    ModAPI.meta.title("Flight Toggle");
+    ModAPI.meta.description("Adds a toggle for Flight Mode.");
     ModAPI.meta.credits("Modified by Lemon");
 
-    let espEnabled = false;
     let flyEnabled = false;
     
     var buttons = [{
-        text: "Toggle Mob ESP",
-        click: () => {
-            espEnabled = !espEnabled;
-            alert(espEnabled ? "Mob ESP Enabled" : "Mob ESP Disabled");
-        },
-        x: 250, // Right top side
-        y: 5,
-        w: 120,
-        h: 20,
-        uid: 152715251
-    },
-    {
         text: "Toggle Fly",
         click: () => {
             flyEnabled = !flyEnabled;
@@ -69,14 +56,5 @@ function button_utility_script(inputArr, bindingClass, actionBindMode) {
         "net.minecraft.client.gui.GuiIngameMenu"
     ].forEach(ui => {
         button_utility_script(buttons, ui, 0);
-    });
-
-    ModAPI.hooks.injectEvent("net.minecraft.client.renderer.entity.RenderManager", "renderEntity", (event) => {
-        if (!espEnabled) return;
-        var entity = event.args[0];
-        if (entity && (entity.getClass().getSimpleName().includes("EntityLiving") || entity.getClass().getSimpleName().includes("EntityZombie"))) {
-            ModAPI.render.renderEntityBoundingBox(entity, 0, 255, 0, 255); // Green ESP
-            ModAPI.render.renderTracerToEntity(entity, 255, 0, 0, 255); // Red Tracer
-        }
     });
 })();
